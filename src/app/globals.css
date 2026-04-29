@@ -1,0 +1,45 @@
+@import "tailwindcss";
+
+/* ─── Custom design tokens (Tailwind v4 requires @theme in CSS) ─── */
+@theme {
+  --color-k-dark:        #0c1219;
+  --color-k-navy:        #1a2540;
+  --color-k-card:        #111827;
+  --color-k-cream:       #f2ead8;
+  --color-k-cream-muted: #a89f8c;
+  --color-k-gold:        #c8a84b;
+  --color-k-gold-light:  #d4b76a;
+  --color-k-muted:       #4a5568;
+
+  --font-serif: var(--font-cormorant), Georgia, "Times New Roman", serif;
+  --font-sans:  var(--font-inter), system-ui, -apple-system, sans-serif;
+}
+
+/* ─── Reset & base ─── */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: #0c1219;
+  color: #f2ead8;
+  font-family: var(--font-inter), system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* ─── Custom scrollbar ─── */
+::-webkit-scrollbar       { width: 5px; height: 5px; }
+::-webkit-scrollbar-track { background: #0c1219; }
+::-webkit-scrollbar-thumb { background: #c8a84b55; border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: #c8a84b; }
+
+/* ─── Selection ─── */
+::selection {
+  background: rgba(200, 168, 75, 0.2);
+  color: #f2ead8;
+}
