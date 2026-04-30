@@ -51,7 +51,8 @@ function ProductCard({
   const inView = useInView(ref, { once: true, margin: "-60px" });
 
   return (
-    <motion.div
+    <motion.a
+      href="#contact"
       ref={ref}
       initial={{ opacity: 0, y: 50 }}
       animate={inView ? { opacity: 1, y: 0 } : {}}
@@ -59,6 +60,7 @@ function ProductCard({
       whileHover={{ y: -8 }}
       className="group relative flex flex-col cursor-pointer overflow-hidden"
       style={{
+        textDecoration: "none",
         background: "linear-gradient(145deg, #111827 0%, #0c1219 100%)",
         border: `1px solid ${product.border}`,
         padding: "3rem",
@@ -69,6 +71,10 @@ function ProductCard({
       }}
       onMouseLeave={(e) => {
         (e.currentTarget as HTMLElement).style.boxShadow = "none";
+      }}
+      onClick={(e) => {
+        const el = document.getElementById("contact");
+        if (el) { e.preventDefault(); el.scrollIntoView({ behavior: "smooth" }); }
       }}
     >
       {/* Hover color wash */}
@@ -136,7 +142,7 @@ function ProductCard({
       >
         {product.tag}
       </span>
-    </motion.div>
+    </motion.a>
   );
 }
 

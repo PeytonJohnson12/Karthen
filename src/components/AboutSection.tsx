@@ -6,7 +6,7 @@ import { useRef } from "react";
 const stats = [
   { value: "10+", label: "Years of Excellence", color: "#c8a84b" },
   { value: "3",   label: "Active Brands",       color: "#6366f1" },
-  { value: "∞",   label: "Ambition",            color: "#a855f7" },
+  { value: "50+", label: "Projects Delivered",   color: "#a855f7" },
 ];
 
 export default function AboutSection() {

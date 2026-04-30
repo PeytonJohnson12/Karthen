@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import Link from "next/link";
 
 const links = [
@@ -13,6 +13,7 @@ const links = [
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 60);
@@ -27,9 +28,9 @@ export default function Navbar() {
       transition={{ duration: 0.6, ease: "easeOut" }}
       className="fixed top-0 left-0 right-0 z-50 transition-all duration-500"
       style={
-        scrolled
+        scrolled || mobileOpen
           ? {
-              background: "rgba(12,18,25,0.85)",
+              background: "rgba(12,18,25,0.95)",
               backdropFilter: "blur(20px)",
               WebkitBackdropFilter: "blur(20px)",
               borderBottom: "1px solid rgba(200,168,75,0.2)",
@@ -45,10 +46,7 @@ export default function Navbar() {
             className="w-9 h-9 flex items-center justify-center flex-shrink-0"
             style={{ background: "#f2ead8" }}
           >
-            <span
-              className="font-serif font-bold text-xl leading-none"
-              style={{ color: "#0c1219" }}
-            >
+            <span className="font-serif font-bold text-xl leading-none" style={{ color: "#0c1219" }}>
               K
             </span>
           </div>
@@ -60,7 +58,7 @@ export default function Navbar() {
           </span>
         </Link>
 
-        {/* Center links */}
+        {/* Desktop center links */}
         <ul className="hidden md:flex items-center gap-10">
           {links.map((link) => (
             <li key={link.label}>
@@ -81,26 +79,67 @@ export default function Navbar() {
           ))}
         </ul>
 
-        {/* Admin CTA */}
-        <Link
-          href="/admin/kanban"
-          className="text-xs tracking-widest uppercase font-sans px-5 py-2.5 transition-all duration-300"
-          style={{
-            border: "1px solid rgba(200,168,75,0.5)",
-            color: "#c8a84b",
-          }}
-          onMouseEnter={(e) => {
-            (e.currentTarget as HTMLElement).style.background = "#c8a84b";
-            (e.currentTarget as HTMLElement).style.color = "#0c1219";
-          }}
-          onMouseLeave={(e) => {
-            (e.currentTarget as HTMLElement).style.background = "transparent";
-            (e.currentTarget as HTMLElement).style.color = "#c8a84b";
-          }}
+        {/* Desktop right: empty spacer to balance logo */}
+        <div className="hidden md:block w-24" />
+
+        {/* Mobile hamburger */}
+        <button
+          className="md:hidden flex flex-col gap-1.5 p-2"
+          onClick={() => setMobileOpen((o) => !o)}
+          aria-label={mobileOpen ? "Close menu" : "Open menu"}
         >
-          Admin →
-        </Link>
+          <span
+            className="block w-6 h-px transition-all duration-300"
+            style={{
+              background: "#f2ead8",
+              transform: mobileOpen ? "translateY(5px) rotate(45deg)" : "none",
+            }}
+          />
+          <span
+            className="block w-6 h-px transition-all duration-300"
+            style={{
+              background: "#f2ead8",
+              opacity: mobileOpen ? 0 : 1,
+            }}
+          />
+          <span
+            className="block w-6 h-px transition-all duration-300"
+            style={{
+              background: "#f2ead8",
+              transform: mobileOpen ? "translateY(-5px) rotate(-45deg)" : "none",
+            }}
+          />
+        </button>
       </nav>
+
+      {/* Mobile drawer */}
+      <AnimatePresence>
+        {mobileOpen && (
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: "auto" }}
+            exit={{ opacity: 0, height: 0 }}
+            transition={{ duration: 0.25, ease: "easeInOut" }}
+            className="md:hidden overflow-hidden"
+            style={{ borderTop: "1px solid rgba(200,168,75,0.15)" }}
+          >
+            <ul className="flex flex-col px-8 py-6 gap-5">
+              {links.map((link) => (
+                <li key={link.label}>
+                  <a
+                    href={link.href}
+                    onClick={() => setMobileOpen(false)}
+                    className="text-xs tracking-widest uppercase font-sans"
+                    style={{ color: "#a89f8c" }}
+                  >
+                    {link.label}
+                  </a>
+                </li>
+              ))}
+            </ul>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </motion.header>
   );
 }

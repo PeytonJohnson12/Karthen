@@ -134,6 +134,16 @@ export default function CTASection() {
             View Our Work
           </a>
         </motion.div>
+
+        <motion.p
+          initial={{ opacity: 0 }}
+          animate={inView ? { opacity: 1 } : {}}
+          transition={{ duration: 0.6, delay: 0.8 }}
+          className="font-sans text-xs select-all"
+          style={{ color: "rgba(168,159,140,0.45)", letterSpacing: "0.15em", marginTop: "2rem" }}
+        >
+          hello@karthen.com
+        </motion.p>
       </div>
     </section>
   );

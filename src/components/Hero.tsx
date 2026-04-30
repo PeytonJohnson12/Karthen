@@ -29,18 +29,8 @@ export default function Hero() {
             background: `radial-gradient(circle, ${orb.color}18 0%, transparent 70%)`,
             filter: "blur(60px)",
           }}
-          animate={{
-            scale: [1, 1.15, 1],
-            opacity: [0.6, 1, 0.6],
-            x: [0, 30, 0],
-            y: [0, -20, 0],
-          }}
-          transition={{
-            duration: 8 + i * 2,
-            repeat: Infinity,
-            delay: orb.delay,
-            ease: "easeInOut",
-          }}
+          animate={{ scale: [1, 1.15, 1], opacity: [0.6, 1, 0.6], x: [0, 30, 0], y: [0, -20, 0] }}
+          transition={{ duration: 8 + i * 2, repeat: Infinity, delay: orb.delay, ease: "easeInOut" }}
         />
       ))}
 
@@ -59,7 +49,7 @@ export default function Hero() {
         <motion.p
           initial={{ opacity: 0, y: 16 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 0.2 }}
+          transition={{ duration: 0.6, delay: 0.1 }}
           className="text-k-gold tracking-[0.5em] text-xs uppercase mb-12 font-sans font-medium"
         >
           Master Business
@@ -72,7 +62,7 @@ export default function Hero() {
               key={i}
               initial={{ opacity: 0, y: 60, filter: "blur(8px)" }}
               animate={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-              transition={{ duration: 0.6, delay: 0.4 + i * 0.08, ease: "easeOut" }}
+              transition={{ duration: 0.6, delay: 0.2 + i * 0.04, ease: "easeOut" }}
               className="font-serif text-[clamp(4.5rem,13vw,10rem)] font-light text-k-cream leading-none tracking-[0.1em]"
             >
               {letter}
@@ -84,8 +74,8 @@ export default function Hero() {
         <motion.div
           initial={{ width: 0, opacity: 0 }}
           animate={{ width: "100%", opacity: 1 }}
-          transition={{ duration: 1.0, delay: 1.2, ease: "easeInOut" }}
-          className="h-px bg-gradient-to-r from-transparent via-k-gold to-transparent mx-auto mb-10"
+          transition={{ duration: 1.0, delay: 0.6, ease: "easeInOut" }}
+          className="h-px bg-gradient-to-r from-transparent via-k-gold to-transparent mx-auto mb-8"
           style={{ maxWidth: "520px" }}
         />
 
@@ -93,17 +83,28 @@ export default function Hero() {
         <motion.p
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 1.4 }}
-          className="font-serif italic text-k-cream-muted text-2xl md:text-3xl mb-14 max-w-xl leading-relaxed"
+          transition={{ duration: 0.7, delay: 0.7 }}
+          className="font-serif italic text-k-cream-muted text-2xl md:text-3xl mb-6 max-w-xl leading-relaxed"
         >
           Premium solutions, masterfully crafted.
+        </motion.p>
+
+        {/* Value proposition */}
+        <motion.p
+          initial={{ opacity: 0, y: 12 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.9 }}
+          className="font-sans text-xs uppercase mb-14"
+          style={{ color: "rgba(200,168,75,0.55)", letterSpacing: "0.35em" }}
+        >
+          Enterprise software&nbsp;&nbsp;·&nbsp;&nbsp;Creative services&nbsp;&nbsp;·&nbsp;&nbsp;Venture investment
         </motion.p>
 
         {/* CTAs */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, delay: 1.6 }}
+          transition={{ duration: 0.6, delay: 0.85 }}
           className="flex flex-col sm:flex-row gap-5"
         >
           <a
@@ -125,10 +126,10 @@ export default function Hero() {
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
-        transition={{ delay: 2.2, duration: 0.8 }}
+        transition={{ delay: 1.2, duration: 0.8 }}
         className="absolute bottom-12 left-1/2 -translate-x-1/2 flex flex-col items-center gap-3"
       >
-<motion.div
+        <motion.div
           animate={{ y: [0, 10, 0] }}
           transition={{ repeat: Infinity, duration: 1.6, ease: "easeInOut" }}
           className="w-px h-10 bg-gradient-to-b from-k-gold to-transparent"
