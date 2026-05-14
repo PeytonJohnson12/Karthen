@@ -11,7 +11,7 @@ const links = [
   { label: "Contact", href: "#contact" },
 ];
 
-const INFLUENCER_URL = "https://REPLACE_WITH_YOUR_VERCEL_URL";
+const INFLUENCER_URL = "https://kartheninfluencer.vercel.app";
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);

@@ -4,7 +4,7 @@ import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
 import { ArrowUpRight } from "lucide-react";
 
-const INFLUENCER_URL = "https://REPLACE_WITH_YOUR_VERCEL_URL";
+const INFLUENCER_URL = "https://kartheninfluencer.vercel.app";
 
 const products = [
   {
