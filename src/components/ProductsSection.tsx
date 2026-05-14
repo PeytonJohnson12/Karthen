@@ -4,6 +4,8 @@ import { motion, useInView } from "framer-motion";
 import { useRef } from "react";
 import { ArrowUpRight } from "lucide-react";
 
+const INFLUENCER_URL = "https://REPLACE_WITH_YOUR_VERCEL_URL";
+
 const products = [
   {
     name: "KARTHEN Prime",
@@ -15,6 +17,8 @@ const products = [
     glow: "rgba(200,168,75,0.10)",
     border: "rgba(200,168,75,0.22)",
     number: "01",
+    href: "#contact",
+    external: false,
   },
   {
     name: "KARTHEN Studio",
@@ -26,6 +30,8 @@ const products = [
     glow: "rgba(99,102,241,0.10)",
     border: "rgba(99,102,241,0.22)",
     number: "02",
+    href: "#contact",
+    external: false,
   },
   {
     name: "KARTHEN Ventures",
@@ -37,6 +43,21 @@ const products = [
     glow: "rgba(168,85,247,0.10)",
     border: "rgba(168,85,247,0.22)",
     number: "03",
+    href: "#contact",
+    external: false,
+  },
+  {
+    name: "KARTHEN Influencer",
+    category: "Creator Revenue",
+    description:
+      "Turn every product mention into affiliate revenue. AI-powered affiliate automation built exclusively for YouTube creators who are serious about monetization.",
+    tag: "New",
+    accent: "#f97316",
+    glow: "rgba(249,115,22,0.10)",
+    border: "rgba(249,115,22,0.22)",
+    number: "04",
+    href: INFLUENCER_URL,
+    external: true,
   },
 ];
 
@@ -52,7 +73,9 @@ function ProductCard({
 
   return (
     <motion.a
-      href="#contact"
+      href={product.href}
+      target={product.external ? "_blank" : undefined}
+      rel={product.external ? "noopener noreferrer" : undefined}
       ref={ref}
       initial={{ opacity: 0, y: 50 }}
       animate={inView ? { opacity: 1, y: 0 } : {}}
@@ -73,8 +96,10 @@ function ProductCard({
         (e.currentTarget as HTMLElement).style.boxShadow = "none";
       }}
       onClick={(e) => {
-        const el = document.getElementById("contact");
-        if (el) { e.preventDefault(); el.scrollIntoView({ behavior: "smooth" }); }
+        if (!product.external) {
+          const el = document.getElementById("contact");
+          if (el) { e.preventDefault(); el.scrollIntoView({ behavior: "smooth" }); }
+        }
       }}
     >
       {/* Hover color wash */}
@@ -180,7 +205,7 @@ export default function ProductsSection() {
         </motion.div>
 
         {/* Cards */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {products.map((p, i) => (
             <ProductCard key={p.name} product={p} index={i} />
           ))}

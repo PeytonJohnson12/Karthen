@@ -11,6 +11,8 @@ const links = [
   { label: "Contact", href: "#contact" },
 ];
 
+const INFLUENCER_URL = "https://REPLACE_WITH_YOUR_VERCEL_URL";
+
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
@@ -79,8 +81,32 @@ export default function Navbar() {
           ))}
         </ul>
 
-        {/* Desktop right: empty spacer to balance logo */}
-        <div className="hidden md:block w-24" />
+        {/* Desktop right: For Creators CTA */}
+        <a
+          href={INFLUENCER_URL}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="hidden md:inline-flex items-center gap-2 font-sans font-semibold text-xs uppercase tracking-widest px-5 py-2.5 transition-all duration-300"
+          style={{
+            border: "1px solid rgba(200,168,75,0.5)",
+            color: "#c8a84b",
+          }}
+          onMouseEnter={(e) => {
+            (e.currentTarget as HTMLElement).style.background = "rgba(200,168,75,0.08)";
+            (e.currentTarget as HTMLElement).style.borderColor = "#c8a84b";
+            (e.currentTarget as HTMLElement).style.boxShadow = "0 0 20px rgba(200,168,75,0.2)";
+          }}
+          onMouseLeave={(e) => {
+            (e.currentTarget as HTMLElement).style.background = "transparent";
+            (e.currentTarget as HTMLElement).style.borderColor = "rgba(200,168,75,0.5)";
+            (e.currentTarget as HTMLElement).style.boxShadow = "none";
+          }}
+        >
+          For Creators
+          <svg width="10" height="10" viewBox="0 0 10 10" fill="none" aria-hidden="true">
+            <path d="M1 9L9 1M9 1H3M9 1V7" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+          </svg>
+        </a>
 
         {/* Mobile hamburger */}
         <button
@@ -136,6 +162,20 @@ export default function Navbar() {
                   </a>
                 </li>
               ))}
+              <li className="pt-2" style={{ borderTop: "1px solid rgba(200,168,75,0.15)" }}>
+                <a
+                  href={INFLUENCER_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-xs tracking-widest uppercase font-sans font-semibold flex items-center gap-2"
+                  style={{ color: "#c8a84b" }}
+                >
+                  For Creators
+                  <svg width="10" height="10" viewBox="0 0 10 10" fill="none" aria-hidden="true">
+                    <path d="M1 9L9 1M9 1H3M9 1V7" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round"/>
+                  </svg>
+                </a>
+              </li>
             </ul>
           </motion.div>
         )}
