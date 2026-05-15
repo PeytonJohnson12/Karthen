@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import { Cormorant_Garamond, Inter } from "next/font/google";
 import "./globals.css";
+import CustomCursor   from "@/components/ui/CustomCursor";
+import ScrollProgress from "@/components/ui/ScrollProgress";
 
 const cormorant = Cormorant_Garamond({
   variable: "--font-cormorant",
@@ -28,6 +30,8 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${cormorant.variable} ${inter.variable}`}>
       <body className="min-h-screen bg-k-dark text-k-cream antialiased">
+        <CustomCursor />
+        <ScrollProgress />
         {children}
       </body>
     </html>

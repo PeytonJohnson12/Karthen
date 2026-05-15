@@ -1,10 +1,19 @@
 "use client";
 
 import Link from "next/link";
+import { motion, useInView } from "framer-motion";
+import { useRef } from "react";
 
 export default function Footer() {
+  const ref = useRef(null);
+  const inView = useInView(ref, { once: true, margin: "-40px" });
+
   return (
-    <footer
+    <motion.footer
+      ref={ref}
+      initial={{ opacity: 0, y: 30 }}
+      animate={inView ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 0.8 }}
       style={{
         background: "#0c1219",
         borderTop: "1px solid rgba(255,255,255,0.06)",
@@ -122,6 +131,6 @@ export default function Footer() {
           </p>
         </div>
       </div>
-    </footer>
+    </motion.footer>
   );
 }

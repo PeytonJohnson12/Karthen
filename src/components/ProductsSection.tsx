@@ -77,23 +77,27 @@ function ProductCard({
       target={product.external ? "_blank" : undefined}
       rel={product.external ? "noopener noreferrer" : undefined}
       ref={ref}
-      initial={{ opacity: 0, y: 50 }}
-      animate={inView ? { opacity: 1, y: 0 } : {}}
-      transition={{ duration: 0.7, delay: index * 0.18, ease: "easeOut" }}
-      whileHover={{ y: -8 }}
+      initial={{ opacity: 0, y: 60, filter: "blur(4px)" }}
+      animate={inView ? { opacity: 1, y: 0, filter: "blur(0px)" } : {}}
+      transition={{ duration: 0.8, delay: index * 0.15, ease: "easeOut" }}
+      whileHover={{ y: -10 }}
       className="group relative flex flex-col cursor-pointer overflow-hidden"
       style={{
         textDecoration: "none",
         background: "linear-gradient(145deg, #111827 0%, #0c1219 100%)",
         border: `1px solid ${product.border}`,
         padding: "3rem",
-        transition: "box-shadow 0.4s ease",
+        transition: "box-shadow 0.4s ease, border-color 0.4s ease",
       }}
       onMouseEnter={(e) => {
-        (e.currentTarget as HTMLElement).style.boxShadow = `0 20px 60px ${product.glow}`;
+        const el = e.currentTarget as HTMLElement;
+        el.style.boxShadow   = `0 24px 80px ${product.glow}, inset 0 1px 0 ${product.accent}22`;
+        el.style.borderColor = product.accent + "55";
       }}
       onMouseLeave={(e) => {
-        (e.currentTarget as HTMLElement).style.boxShadow = "none";
+        const el = e.currentTarget as HTMLElement;
+        el.style.boxShadow   = "none";
+        el.style.borderColor = product.border;
       }}
       onClick={(e) => {
         if (!product.external) {
@@ -105,15 +109,29 @@ function ProductCard({
       {/* Hover color wash */}
       <div
         className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none"
-        style={{
-          background: `radial-gradient(ellipse at top left, ${product.glow} 0%, transparent 65%)`,
-        }}
+        style={{ background: `radial-gradient(ellipse at top left, ${product.glow} 0%, transparent 65%)` }}
       />
 
-      {/* Large background number */}
+      {/* Light sweep on hover */}
+      <div
+        className="absolute inset-0 opacity-0 group-hover:opacity-100 pointer-events-none overflow-hidden"
+        style={{ transition: "opacity 0.3s" }}
+      >
+        <div
+          style={{
+            position: "absolute",
+            top: 0, bottom: 0,
+            width: "40%",
+            background: "linear-gradient(90deg, transparent, rgba(255,255,255,0.04), transparent)",
+            animation: "shimmer-sweep 0.8s ease forwards",
+          }}
+        />
+      </div>
+
+      {/* Large background number — brightens on hover */}
       <span
-        className="font-serif text-8xl font-light leading-none mb-8 select-none block"
-        style={{ color: product.accent + "18" }}
+        className="font-serif text-8xl font-light leading-none mb-8 select-none block transition-all duration-500 group-hover:text-9xl"
+        style={{ color: product.accent + "22" }}
       >
         {product.number}
       </span>
@@ -160,11 +178,17 @@ function ProductCard({
         />
       </div>
 
-      {/* Tag badge */}
+      {/* Tag badge — pulses if "New" */}
       <span
-        className="absolute top-6 right-6 text-xs tracking-wider border px-2.5 py-1 font-sans"
-        style={{ color: product.accent + "99", borderColor: product.accent + "33" }}
+        className="absolute top-6 right-6 text-xs tracking-wider border px-2.5 py-1 font-sans flex items-center gap-1.5"
+        style={{ color: product.accent + "cc", borderColor: product.accent + "44" }}
       >
+        {product.tag === "New" && (
+          <span
+            className="inline-block w-1.5 h-1.5 rounded-full flex-shrink-0"
+            style={{ background: product.accent, animation: "pulse-ring 1.5s ease-out infinite", boxShadow: `0 0 6px ${product.accent}` }}
+          />
+        )}
         {product.tag}
       </span>
     </motion.a>

@@ -1,13 +1,53 @@
 "use client";
 
 import { motion, useInView } from "framer-motion";
-import { useRef } from "react";
+import { useRef, useEffect, useState } from "react";
 
 const stats = [
-  { value: "10+", label: "Years of Excellence", color: "#c8a84b" },
-  { value: "3",   label: "Active Brands",       color: "#6366f1" },
-  { value: "50+", label: "Projects Delivered",   color: "#a855f7" },
+  { end: 10, suffix: "+", label: "Years of Excellence", color: "#c8a84b" },
+  { end: 3,  suffix: "",  label: "Active Brands",       color: "#6366f1" },
+  { end: 50, suffix: "+", label: "Projects Delivered",  color: "#a855f7" },
 ];
+
+const QUOTE_WORDS = "Every great business begins with a master idea, and endures through masterful execution.".split(" ");
+
+function AnimatedStat({ end, suffix, label, color, trigger }: { end: number; suffix: string; label: string; color: string; trigger: boolean }) {
+  const [count, setCount] = useState(0);
+  useEffect(() => {
+    if (!trigger) return;
+    let start = 0;
+    const step = end / 60;
+    const id = setInterval(() => {
+      start += step;
+      if (start >= end) { setCount(end); clearInterval(id); }
+      else setCount(Math.floor(start));
+    }, 18);
+    return () => clearInterval(id);
+  }, [trigger, end]);
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      animate={trigger ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 0.6 }}
+      style={{ background: "#0c1219", padding: "3rem 3.5rem", position: "relative", overflow: "hidden" }}
+    >
+      {/* Animated top border */}
+      <motion.div
+        initial={{ scaleX: 0 }}
+        animate={trigger ? { scaleX: 1 } : {}}
+        transition={{ duration: 0.8, delay: 0.3 }}
+        style={{ position: "absolute", top: 0, left: 0, right: 0, height: 1, background: color, transformOrigin: "left", opacity: 0.5 }}
+      />
+      <p className="font-serif font-light" style={{ color, fontSize: "4.5rem", lineHeight: 1, marginBottom: "1rem" }}>
+        {count}{suffix}
+      </p>
+      <p className="font-sans text-xs uppercase" style={{ color: "#a89f8c", letterSpacing: "0.2em" }}>
+        {label}
+      </p>
+    </motion.div>
+  );
+}
 
 export default function AboutSection() {
   const ref = useRef(null);
@@ -69,25 +109,17 @@ export default function AboutSection() {
           className="grid grid-cols-1 md:grid-cols-2"
           style={{ gap: "6rem", marginBottom: "7rem", alignItems: "start" }}
         >
-          {/* Left: blockquote */}
-          <motion.div
-            initial={{ opacity: 0, x: -40 }}
-            animate={inView ? { opacity: 1, x: 0 } : {}}
-            transition={{ duration: 0.8, delay: 0.1 }}
-            style={{ position: "relative" }}
-          >
+          {/* Left: blockquote with word-by-word reveal */}
+          <div style={{ position: "relative" }}>
             <span
               className="font-serif select-none pointer-events-none"
               style={{
-                fontSize: "10rem",
-                lineHeight: 1,
+                fontSize: "10rem", lineHeight: 1,
                 color: "rgba(200,168,75,0.12)",
-                position: "absolute",
-                top: "-3rem",
-                left: "-1.5rem",
+                position: "absolute", top: "-3rem", left: "-1.5rem",
               }}
             >
-              "
+              &ldquo;
             </span>
             <blockquote
               className="font-serif italic font-light"
@@ -101,27 +133,35 @@ export default function AboutSection() {
                 zIndex: 1,
               }}
             >
-              Every great business begins with a master idea, and endures through
-              masterful execution.
+              {QUOTE_WORDS.map((word, i) => (
+                <motion.span
+                  key={i}
+                  initial={{ opacity: 0, y: 12, filter: "blur(6px)" }}
+                  animate={inView ? { opacity: 1, y: 0, filter: "blur(0px)" } : {}}
+                  transition={{ duration: 0.5, delay: 0.2 + i * 0.045 }}
+                  style={{ display: "inline-block", marginRight: "0.3em" }}
+                >
+                  {word}
+                </motion.span>
+              ))}
             </blockquote>
-            <div
-              style={{
-                display: "flex",
-                alignItems: "center",
-                gap: "1rem",
-                marginTop: "2.5rem",
-                paddingLeft: "1.5rem",
-              }}
+            <motion.div
+              initial={{ opacity: 0, x: -20 }}
+              animate={inView ? { opacity: 1, x: 0 } : {}}
+              transition={{ duration: 0.7, delay: 0.9 }}
+              style={{ display: "flex", alignItems: "center", gap: "1rem", marginTop: "2.5rem", paddingLeft: "1.5rem" }}
             >
-              <div style={{ width: "2.5rem", height: "1px", background: "#c8a84b" }} />
-              <span
-                className="font-sans text-xs font-medium uppercase"
-                style={{ color: "#c8a84b", letterSpacing: "0.3em" }}
-              >
+              <motion.div
+                initial={{ width: 0 }}
+                animate={inView ? { width: "2.5rem" } : {}}
+                transition={{ duration: 0.6, delay: 1.0 }}
+                style={{ height: "1px", background: "#c8a84b" }}
+              />
+              <span className="font-sans text-xs font-medium uppercase" style={{ color: "#c8a84b", letterSpacing: "0.3em" }}>
                 KARTHEN Founding Philosophy
               </span>
-            </div>
-          </motion.div>
+            </motion.div>
+          </div>
 
           {/* Right: body copy */}
           <motion.div
@@ -149,29 +189,7 @@ export default function AboutSection() {
         {/* Stats row */}
         <div className="grid grid-cols-1 sm:grid-cols-3" style={{ gap: "1px", background: "rgba(255,255,255,0.06)" }}>
           {stats.map((stat, i) => (
-            <motion.div
-              key={stat.label}
-              initial={{ opacity: 0, y: 20 }}
-              animate={inView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.6, delay: 0.5 + i * 0.12 }}
-              style={{
-                background: "#0c1219",
-                padding: "3rem 3.5rem",
-              }}
-            >
-              <p
-                className="font-serif font-light"
-                style={{ color: stat.color, fontSize: "4.5rem", lineHeight: 1, marginBottom: "1rem" }}
-              >
-                {stat.value}
-              </p>
-              <p
-                className="font-sans text-xs uppercase"
-                style={{ color: "#a89f8c", letterSpacing: "0.2em" }}
-              >
-                {stat.label}
-              </p>
-            </motion.div>
+            <AnimatedStat key={stat.label} {...stat} trigger={inView} />
           ))}
         </div>
       </div>
